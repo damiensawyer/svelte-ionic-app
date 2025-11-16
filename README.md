@@ -1,10 +1,5 @@
-<h1> MAINTENANCE </h1>
-Ionic-svelte is going to be deprecated in favor of @ionic-svelte/core (which is not stable yet)
-and other repo's - see discussion at https://github.com/ionic-svelte/core/pull/111
-
-If you like this package, please place your star on https://github.com/ionic-svelte/core
-
-Meanwhile, you can use ionic-svelte as per README, until @ionic-svelte/core is stable
+<h1> NO MORE MAINTENANCE (Nov 2025)</h1>
+The repo is no longer actively maintained.
 
 
 <h1 align="center"> Ionic SvelteKit </h1> <br>
