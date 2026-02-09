@@ -28,11 +28,11 @@
 	},
 	"type": "module",
 	"devDependencies": {
-		"prettier-plugin-svelte": "^3.2.6",
-		"svelte": "^4.0.5"
+		"prettier-plugin-svelte": "^3.4.1",
+		"svelte": "^5.50.0"
 	},
 	"dependencies": {
-		"@ionic/core": "^8.2.2",
-		"swiper": "^9.2.4"
+		"@ionic/core": "^8.7.17",
+		"swiper": "^12.1.0"
 	}
 }
