@@ -1,43 +1,41 @@
 <script>
-	// @ts-nocheck
 	import { navigating, page } from '$app/stores';
 	import { onMount } from 'svelte';
-
 	import { goto } from '$app/navigation';
+	import { get } from 'svelte/store';
 
-	export let ionTabsDidChange = () => {};
-	export let ionTabsWillChange = () => {};
-	export let slot = 'bottom';
-
-	/**
-    An array of tab objects containing label, icon, and tab properties.
-    @type {{label: string; icon: string; tab: string;}[]}
-    */
-	export let tabs = [];
+	let {
+		ionTabsDidChange = () => {},
+		ionTabsWillChange = () => {},
+		slot = 'bottom',
+		tabs = [],
+		children
+	} = $props();
 
 	let ionTabBarElement;
 	let controller;
 
-	// we need relative path for the goto to function properly and to allow for relative tab definitions
-	const { pathname } = $page.url;
-	const cleanedPath = pathname.replace(/\/+$/, ''); // Strip trailing slashes, so we can get the last part of the path correctly. (e.g. /pages/homepage/ -> /pages/homepage)
+	const currentPage = get(page);
+	const { pathname } = currentPage.url;
+	const cleanedPath = pathname.replace(/\/+$/, '');
 	const pathSplit = cleanedPath.split('/');
-	let currentTabName = pathSplit[pathSplit.length - 1]; // we don't want to use at(-1) because of old browsers
+	let currentTabName = pathSplit[pathSplit.length - 1];
 	let relativePath = cleanedPath.replace(currentTabName, '');
 
-	// we need to capture the router changes - to support a-href navigation and other stuff
-	$: if ($navigating && $navigating.to) {
-		tabs.forEach(async (tab) => {
-			if ($navigating.to.url.pathname.includes(relativePath + tab.tab)) {
-				currentTabName = tab.tab;
-				await goto($navigating.to.url.pathname);
-				controller.select(tab.tab);
-			}
-		});
-	}
+	$effect(() => {
+		const nav = get(navigating);
+		if (nav?.to) {
+			tabs.forEach(async (tab) => {
+				if (nav.to.url.pathname.includes(relativePath + tab.tab)) {
+					currentTabName = tab.tab;
+					await goto(nav.to.url.pathname);
+					controller.select(tab.tab);
+				}
+			});
+		}
+	});
 
 	onMount(async () => {
-		// reassignment needed after onMount
 		controller = ionTabBarElement;
 		controller.select(currentTabName);
 	});
@@ -50,11 +48,11 @@
 </script>
 
 <ion-tabs
-	on:ionTabsDidChange={ionTabsDidChange}
-	on:ionTabsWillChange={ionTabsWillChange}
+	onionTabsDidChange={ionTabsDidChange}
+	onionTabsWillChange={ionTabsWillChange}
 	bind:this={ionTabBarElement}
 >
-	<slot />
+	{@render children?.()}
 
 	{#if slot === 'bottom' || slot === ''}
 		<ion-tab-bar slot="bottom">
@@ -63,12 +61,8 @@
 					tab={tab.tab}
 					role="tab"
 					tabindex="0"
-					on:keydown={() => {
-						tabBarClick(tab.tab);
-					}}
-					on:click={() => {
-						tabBarClick(tab.tab);
-					}}
+					onkeydown={() => tabBarClick(tab.tab)}
+					onclick={() => tabBarClick(tab.tab)}
 				>
 					<ion-label>{tab.label}</ion-label>
 					<ion-icon icon={tab.icon}></ion-icon>
@@ -84,12 +78,8 @@
 					tab={tab.tab}
 					role="tab"
 					tabindex="0"
-					on:keydown={() => {
-						tabBarClick(tab.tab);
-					}}
-					on:click={() => {
-						tabBarClick(tab.tab);
-					}}
+					onkeydown={() => tabBarClick(tab.tab)}
+					onclick={() => tabBarClick(tab.tab)}
 				>
 					<ion-label>{tab.label}</ion-label>
 					<ion-icon icon={tab.icon}></ion-icon>

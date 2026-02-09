@@ -2,6 +2,7 @@
 	console.warn(
 		`Please replace import { IonPage } from 'ionic-svelte' with import IonPage from 'ionic-svelte/components/IonPage.svelte'`
 	);
+	let { children } = $props();
 </script>
 
-<slot />
+{@render children?.()}

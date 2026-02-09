@@ -1,39 +1,40 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-
 	import { goto } from '$app/navigation';
+	import { get } from 'svelte/store';
 
-	export let ionTabsDidChange = () => {};
-	export let ionTabsWillChange = () => {};
-	export let slot = 'bottom';
+	let {
+		ionTabsDidChange = () => {},
+		ionTabsWillChange = () => {},
+		slot = 'bottom',
+		tabs = [],
+		children
+	}: {
+		ionTabsDidChange?: () => void;
+		ionTabsWillChange?: () => void;
+		slot?: string;
+		tabs: { label: string; icon: string; tab: string }[];
+		children?: any;
+	} = $props();
 
 	let ionTabBarElement: HTMLIonTabsElement;
-
-	export let tabs: {
-		label: string;
-		icon: string;
-		tab: string;
-	}[] = [];
-
 	let controller: HTMLIonTabsElement;
+
 	onMount(async () => {
-		// reassignment needed after onMount
 		controller = ionTabBarElement;
-		const { pathname } = $page.url;
+		const currentPage = get(page);
+		const { pathname } = currentPage.url;
 		let tabInPathName = pathname.split('/').at(-1);
 
 		if (tabInPathName && tabs.length > 0) {
-			// if we have don't have a route to a tab, let's take the first one
 			if (!tabs.map((tab) => tab.tab).includes(tabInPathName)) {
 				await goto(tabInPathName + '/' + tabs[0]?.tab);
 				controller.select(tabs[0]?.tab);
 			}
 		} else {
-			// panic - incorrect route or no tabs provided
-			console.warn('Incorrect route or no tabs supplied for IonTabs', $page.url, tabs);
+			console.warn('Incorrect route or no tabs supplied for IonTabs', currentPage.url, tabs);
 			goto('/');
-			return;
 		}
 	});
 
@@ -44,11 +45,11 @@
 </script>
 
 <ion-tabs
-	on:ionTabsDidChange={ionTabsDidChange}
-	on:ionTabsWillChange={ionTabsWillChange}
+	onionTabsDidChange={ionTabsDidChange}
+	onionTabsWillChange={ionTabsWillChange}
 	bind:this={ionTabBarElement}
 >
-	<slot />
+	{@render children?.()}
 
 	{#if slot === 'bottom' || slot === ''}
 		<ion-tab-bar slot="bottom">
@@ -57,12 +58,8 @@
 					tab={tab.tab}
 					role="tab"
 					tabindex="0"
-					on:keydown={() => {
-						tabBarClick(tab.tab);
-					}}
-					on:click={() => {
-						tabBarClick(tab.tab);
-					}}
+					onkeydown={() => tabBarClick(tab.tab)}
+					onclick={() => tabBarClick(tab.tab)}
 				>
 					<ion-label>{tab.label}</ion-label>
 					<ion-icon icon={tab.icon}></ion-icon>
@@ -78,12 +75,8 @@
 					tab={tab.tab}
 					role="tab"
 					tabindex="0"
-					on:keydown={() => {
-						tabBarClick(tab.tab);
-					}}
-					on:click={() => {
-						tabBarClick(tab.tab);
-					}}
+					onkeydown={() => tabBarClick(tab.tab)}
+					onclick={() => tabBarClick(tab.tab)}
 				>
 					<ion-label>{tab.label}</ion-label>
 					<ion-icon icon={tab.icon}></ion-icon>

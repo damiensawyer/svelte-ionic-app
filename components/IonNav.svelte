@@ -1,58 +1,28 @@
 <script>
-	import { onMount } from 'svelte';
+	import { mount, onMount } from 'svelte';
 
-	/**
-	 * The root component of a Svelte app.
-	 * @type {SvelteComponent}
-	 */
-	export let root;
+	let {
+		root,
+		animated = true,
+		animation = undefined,
+		rootParams = undefined,
+		swipeGesture = undefined,
+		onionNavDidChange = undefined,
+		onionNavWillChange = undefined
+	} = $props();
 
-	/**
-	 * Whether or not the component is animated.
-	 * @type {boolean|undefined}
-	 */
-	export let animated = true;
-
-	/**
-	 * An animation function that takes a base element and optional options and returns an Animation object.
-	 * @type {((baseEl: any, opts?: any) => Animation)|undefined}
-	 */
-	export let animation;
-
-	/**
-	 * Optional parameters for the root component.
-	 * @type {undefined|{[key: string]: any}}
-	 */
-	export let rootParams;
-
-	/**
-	 * Whether or not swipe gesture is enabled.
-	 * @type {boolean|undefined}
-	 */
-	export let swipeGesture;
-
-	let ionNav;
-	let rootComponent;
+	let ionNav = $state(undefined);
+	let rootComponent = $state(undefined);
 
 	const createHTMLCompFromSvelte = (component, componentProps = {}) => {
 		const divWrapper = document.createElement('div');
-		const contentID = 'id' + Date.now();
-		divWrapper.id = contentID;
+		divWrapper.id = 'id' + Date.now();
 
 		let navContent = document.createElement('div');
-
 		divWrapper.appendChild(navContent);
 		document.body.appendChild(divWrapper);
 
-		const props = {
-			...componentProps
-		};
-
-		const svelteComponent = new component({
-			target: navContent,
-			props
-		});
-
+		mount(component, { target: navContent, props: componentProps });
 		return divWrapper;
 	};
 
@@ -68,6 +38,6 @@
 	root-params={rootParams}
 	swipe-gesture={swipeGesture}
 	root={rootComponent}
-	on:ionNavDidChange
-	on:ionNavWillChange
+	onionNavDidChange={onionNavDidChange}
+	onionNavWillChange={onionNavWillChange}
 ></ion-nav>
