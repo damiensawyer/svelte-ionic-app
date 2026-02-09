@@ -65,7 +65,7 @@
 			{#each tabs as tab}
 				<ion-tab-button tab={tab.tab}>
 					<ion-label>{tab.label}</ion-label>
-					<ion-icon icon={ionIcons[tab.icon]} />
+					<ion-icon icon={ionIcons[tab.icon]}></ion-icon>
 				</ion-tab-button>
 			{/each}
 		</ion-tab-bar>
@@ -76,7 +76,7 @@
 			{#each tabs as tab}
 				<ion-tab-button tab={tab.tab}>
 					<ion-label>{tab.label}</ion-label>
-					<ion-icon icon={ionIcons[tab.icon]} />
+					<ion-icon icon={ionIcons[tab.icon]}></ion-icon>
 				</ion-tab-button>
 			{/each}
 		</ion-tab-bar>

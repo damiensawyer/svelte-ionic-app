@@ -55,6 +55,8 @@
 			{#each tabs as tab}
 				<ion-tab-button
 					tab={tab.tab}
+					role="tab"
+					tabindex="0"
 					on:keydown={() => {
 						tabBarClick(tab.tab);
 					}}
@@ -63,7 +65,7 @@
 					}}
 				>
 					<ion-label>{tab.label}</ion-label>
-					<ion-icon icon={tab.icon} />
+					<ion-icon icon={tab.icon}></ion-icon>
 				</ion-tab-button>
 			{/each}
 		</ion-tab-bar>
@@ -74,6 +76,8 @@
 			{#each tabs as tab}
 				<ion-tab-button
 					tab={tab.tab}
+					role="tab"
+					tabindex="0"
 					on:keydown={() => {
 						tabBarClick(tab.tab);
 					}}
@@ -82,7 +86,7 @@
 					}}
 				>
 					<ion-label>{tab.label}</ion-label>
-					<ion-icon icon={tab.icon} />
+					<ion-icon icon={tab.icon}></ion-icon>
 				</ion-tab-button>
 			{/each}
 		</ion-tab-bar>

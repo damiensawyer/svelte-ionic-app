@@ -70,4 +70,4 @@
 	root={rootComponent}
 	on:ionNavDidChange
 	on:ionNavWillChange
-/>
+></ion-nav>

@@ -29,12 +29,14 @@
 	},
 	"type": "module",
 	"devDependencies": {
+		"@sveltejs/kit": "^2",
 		"prettier-plugin-svelte": "^3.4.1",
 		"svelte": "^5.50.0",
 		"svelte-check": "^4.3.6"
 	},
 	"dependencies": {
 		"@ionic/core": "^8.7.17",
+		"ionicons": "^7",
 		"swiper": "^12.1.0"
 	}
 }

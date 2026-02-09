@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"moduleResolution": "bundler",
+		"target": "ESNext",
+		"module": "ESNext",
+		"paths": {
+			"$lib/*": ["./src/*"],
+			"$app/*": ["./types/$app/*"]
+		},
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"strict": false,
+		"types": ["@ionic/core"]
+	},
+	"include": ["src/**/*.svelte", "src/**/*.ts", "components/**/*.svelte", "types/**/*.ts"],
+	"exclude": ["node_modules", "demo-app", "starterfiles", "packages"]
+}

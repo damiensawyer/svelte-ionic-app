@@ -1,0 +1,3 @@
+{
+  "ignore": ["demo-app", "starterfiles", "packages", "node_modules"]
+}
